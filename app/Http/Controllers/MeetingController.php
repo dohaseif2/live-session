@@ -32,25 +32,37 @@ class MeetingController extends Controller
             'start_date_time' => 'required|date',
             'duration_in_minute' => 'required|numeric',
         ]);
-        
+
 
         $meeting = $this->zoomService->createMeeting($validated);
         $meeting['start_time'] = Carbon::parse($meeting['start_time'])->format('Y-m-d H:i:s');
-            // $meeting['zoom_id']=$meeting['id'];
-            // Create the meeting record in the database
-            Meeting::create([
-                'uuid' => $meeting['uuid'],
-                'id' => $meeting['id'],
-                'topic' => $meeting['topic'],
-                'type' => $meeting['type'],
-                'start_time' => $meeting['start_time'], 
-                'duration' => $meeting['duration'],
-                'start_url' => $meeting['start_url'],
-                'join_url' => $meeting['join_url'],
-                'password' => $meeting['password'],
-                'zoom_id' => $meeting['id'],
-            ]);
-            return redirect()->route('meetings.index')->with('success', 'Meeting created successfully!');
+        // $meeting['zoom_id']=$meeting['id'];
+        // Create the meeting record in the database
+        Meeting::create([
+            'uuid' => $meeting['uuid'],
+            'id' => $meeting['id'],
+            'topic' => $meeting['topic'],
+            'type' => $meeting['type'],
+            'start_time' => $meeting['start_time'],
+            'duration' => $meeting['duration'],
+            'start_url' => $meeting['start_url'],
+            'join_url' => $meeting['join_url'],
+            'password' => $meeting['password'],
+            'zoom_id' => $meeting['id'],
+        ]);
+        return redirect()->route('meetings.index')->with('success', 'Meeting created successfully!');
+    }
+    // MeetingController.php
 
+    public function destroy($id)
+    {
+        $meeting = Meeting::findOrFail($id);
+        $zoomDeleted = $this->zoomService->deleteMeeting($meeting->zoom_id);
+        if ($zoomDeleted) {
+            $meeting->delete();
+            return redirect()->route('meetings.index')->with('success', 'Meeting deleted successfully.');
+        } else {
+            return redirect()->route('meetings.index')->with('error', 'Failed to delete meeting from Zoom.');
+        }
     }
 }

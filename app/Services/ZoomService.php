@@ -19,7 +19,7 @@ class ZoomService implements ZoomServiceInterface
     public function createMeeting(array $data): array
     {
         $accessToken = $this->generateToken();
-        
+
         $response = $this->client->post('https://api.zoom.us/v2/users/me/meetings', [
             'headers' => [
                 'Authorization' => 'Bearer ' . $accessToken,
@@ -44,7 +44,19 @@ class ZoomService implements ZoomServiceInterface
 
         return json_decode($response->getBody()->getContents(), true);
     }
+    public function deleteMeeting($meetingId)
+    {
+        $accessToken = $this->generateToken();
 
+        $response = $this->client->delete("https://api.zoom.us/v2/meetings/{$meetingId}", [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $accessToken,
+                'Content-Type' => 'application/json',
+            ],
+        ]);
+
+        return $response->getStatusCode() === 204; 
+    }
     public function generateToken(): string
     {
         $base64String = base64_encode(env('ZOOM_CLIENT_ID') . ':' . env('ZOOM_CLIENT_SECRET'));

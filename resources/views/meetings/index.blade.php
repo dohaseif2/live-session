@@ -12,6 +12,7 @@
 <body>
     <div class="container mt-5">
         <h1 class="mb-4">Meetings</h1>
+        <a href="{{ route('meetings.create') }}" class="btn btn-primary mb-3">Create Meeting</a>
 
         @if (session('success'))
             <div class="alert alert-success">
@@ -32,6 +33,7 @@
                     <th>Duration</th>
                     <th>Start URL</th>
                     <th>Join URL</th>
+                    <th>actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,6 +45,13 @@
                         <td>{{ $meeting->duration }}</td>
                         <td><a href="{{ $meeting->start_url }}" target="_blank">Start URL</a></td>
                         <td><a href="{{ $meeting->join_url }}" target="_blank">Join URL</a></td>
+                        <td>
+                            <form action="{{ route('meetings.destroy', $meeting->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this meeting?');">Delete</button>
+                            </form>
+                        </td>
                     </tr>
                 @empty
                     <tr>

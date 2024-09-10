@@ -22,3 +22,5 @@ Route::get('/', function () {
 Route::get('/meetings', [MeetingController::class, 'index'])->name('meetings.index');
 Route::get('/meetings/create', [MeetingController::class, 'create'])->name('meetings.create.form');
 Route::post('/meetings/create', [MeetingController::class, 'createMeeting'])->name('meetings.create');
+Route::delete('meetings/{id}', [MeetingController::class, 'destroy'])->name('meetings.destroy');
+
