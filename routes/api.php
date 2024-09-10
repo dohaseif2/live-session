@@ -20,4 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('create-meeting',[ZoomController::class,'createMeeting']);
-
+Route::delete('/meetings/{id}', [ZoomController::class, 'deleteMeeting'])->name('meetings.delete');

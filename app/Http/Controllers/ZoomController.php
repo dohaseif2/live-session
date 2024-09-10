@@ -34,7 +34,7 @@ class ZoomController extends Controller
                 'id' => $meeting['id'],
                 'topic' => $meeting['topic'],
                 'type' => $meeting['type'],
-                'start_time' => $meeting['start_time'], 
+                'start_time' => $meeting['start_time'],
                 'duration' => $meeting['duration'],
                 'start_url' => $meeting['start_url'],
                 'join_url' => $meeting['join_url'],
@@ -42,6 +42,20 @@ class ZoomController extends Controller
                 'zoom_id' => $meeting['id'],
             ]);
             return response()->json(["Meeting" => $meeting], 201);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+    public function deleteMeeting($id)
+    {
+        try {
+            $meeting = Meeting::where('zoom_id', $id)->firstOrFail();
+
+            $this->zoomService->deleteMeeting($id);
+
+            $meeting->delete();
+
+            return response()->json(['success' => 'Meeting deleted successfully.'], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

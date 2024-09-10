@@ -4,15 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meetings</title>
-    <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Optionally include custom CSS if needed -->
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+ 
 </head>
 <body>
     <div class="container mt-5">
         <h1 class="mb-4">Meetings</h1>
-        <a href="{{ route('meetings.create') }}" class="btn btn-primary mb-3">Create Meeting</a>
 
         @if (session('success'))
             <div class="alert alert-success">
@@ -23,7 +20,7 @@
                 {{ session('error') }}
             </div>
         @endif
-
+        <a href="{{ route('meetings.create') }}" class="btn btn-primary mb-3">Create Meeting</a>
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -33,7 +30,7 @@
                     <th>Duration</th>
                     <th>Start URL</th>
                     <th>Join URL</th>
-                    <th>actions</th>
+                    <th>action</th>
                 </tr>
             </thead>
             <tbody>
@@ -66,8 +63,5 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <!-- Optionally include custom JS if needed -->
-    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
