@@ -40,9 +40,10 @@
                         <td>{{ $meeting->topic }}</td>
                         <td>{{ $meeting->start_time }}</td>
                         <td>{{ $meeting->duration }}</td>
-                        <td><a href="{{ $meeting->start_url }}" target="_blank">Start URL</a></td>
-                        <td><a href="{{ $meeting->join_url }}" target="_blank">Join URL</a></td>
+                        <td><a href="{{ route('meetings.view', $meeting->id) }}">View Start URL</a></td>
+                        <td><a href="{{ route('meetings.view.gest', $meeting->id) }}" target="_blank">Join URL</a></td>
                         <td>
+
                             <form action="{{ route('meetings.destroy', $meeting->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')

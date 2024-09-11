@@ -23,4 +23,8 @@ Route::get('/meetings', [MeetingController::class, 'index'])->name('meetings.ind
 Route::get('/meetings/create', [MeetingController::class, 'create'])->name('meetings.create.form');
 Route::post('/meetings/create', [MeetingController::class, 'createMeeting'])->name('meetings.create');
 Route::delete('meetings/{id}', [MeetingController::class, 'destroy'])->name('meetings.destroy');
+Route::get('/meetings/{id}/edit', [MeetingController::class, 'edit'])->name('meetings.edit');
+Route::put('/meetings/{id}', [MeetingController::class, 'update'])->name('meetings.update');
+Route::get('/meetings/{id}/view', [MeetingController::class, 'viewMeeting'])->name('meetings.view');
+Route::get('/meetings/{id}/view-gest', [MeetingController::class, 'viewGestMeeting'])->name('meetings.view.gest');
 

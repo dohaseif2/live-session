@@ -52,8 +52,6 @@ class MeetingController extends Controller
         ]);
         return redirect()->route('meetings.index')->with('success', 'Meeting created successfully!');
     }
-    // MeetingController.php
-
     public function destroy($id)
     {
         $meeting = Meeting::findOrFail($id);
@@ -64,5 +62,16 @@ class MeetingController extends Controller
         } else {
             return redirect()->route('meetings.index')->with('error', 'Failed to delete meeting from Zoom.');
         }
+    }
+    public function viewMeeting($id)
+    {
+        $meeting = $this->zoomService->getMeetingById($id);
+        return view('meetings.hostlink', ['meeting' => $meeting]);
+    }
+
+    public function viewGestMeeting($id)
+    {
+        $meeting = $this->zoomService->getMeetingById($id);
+        return view('meetings.gestlink', ['meeting' => $meeting]);
     }
 }

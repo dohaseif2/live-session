@@ -75,4 +75,8 @@ class ZoomService implements ZoomServiceInterface
         $responseBody = json_decode($response->getBody()->getContents(), true);
         return $responseBody['access_token'];
     }
+    public function getMeetingById($id)
+    {
+        return Meeting::findOrFail($id);
+    }
 }
