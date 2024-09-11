@@ -16,10 +16,11 @@ class ZoomService implements ZoomServiceInterface
         $this->client = $client;
     }
 
-    public function createMeeting(array $data): array
+    public function createMeeting(array $data)
     {
         $accessToken = $this->generateToken();
 
+        // Create Zoom meeting using Zoom API
         $response = $this->client->post('https://api.zoom.us/v2/users/me/meetings', [
             'headers' => [
                 'Authorization' => 'Bearer ' . $accessToken,
@@ -42,7 +43,22 @@ class ZoomService implements ZoomServiceInterface
             ],
         ]);
 
-        return json_decode($response->getBody()->getContents(), true);
+        $meetingData = json_decode($response->getBody()->getContents(), true);
+        $meetingData['start_time'] = Carbon::parse($meetingData['start_time'])->format('Y-m-d H:i:s');
+
+        // Save the meeting data to the database
+        return Meeting::create([
+            'uuid' => $meetingData['uuid'],
+            'id' => $meetingData['id'],
+            'topic' => $meetingData['topic'],
+            'type' => $meetingData['type'],
+            'start_time' => $meetingData['start_time'],
+            'duration' => $meetingData['duration'],
+            'start_url' => $meetingData['start_url'],
+            'join_url' => $meetingData['join_url'],
+            'password' => $meetingData['password'],
+            'zoom_id' => $meetingData['id'],
+        ]);
     }
     public function deleteMeeting($meetingId)
     {

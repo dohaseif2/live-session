@@ -26,22 +26,8 @@ class ZoomController extends Controller
 
         try {
             $meeting = $this->zoomService->createMeeting($validated);
-            $meeting['start_time'] = Carbon::parse($meeting['start_time'])->format('Y-m-d H:i:s');
-            // $meeting['zoom_id']=$meeting['id'];
-            // Create the meeting record in the database
-            Meeting::create([
-                'uuid' => $meeting['uuid'],
-                'id' => $meeting['id'],
-                'topic' => $meeting['topic'],
-                'type' => $meeting['type'],
-                'start_time' => $meeting['start_time'],
-                'duration' => $meeting['duration'],
-                'start_url' => $meeting['start_url'],
-                'join_url' => $meeting['join_url'],
-                'password' => $meeting['password'],
-                'zoom_id' => $meeting['id'],
-            ]);
-            return response()->json(["Meeting" => $meeting], 201);
+
+            return response()->json(['Meeting' => $meeting], 201);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
